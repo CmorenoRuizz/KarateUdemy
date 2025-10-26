@@ -3,12 +3,16 @@ Feature: Articles
 Background: Definir url
     Given url 'https://conduit-api.bondaracademy.com/api/'
 
-Scenario: Crear nuevo artículo
     Given path 'users/login'
     And request {"user": {"email": "zanahorio@karate.com","password": "vf3hUL@fMpL6U3N"}} //body del método post (cuidado con el formateo al pegar, hay que ponerlo en línea...)
     When method Post
     Then status 200
     * def token = response.user.token //define una variable para guardar la información del token de inicio de sesión para usarlo más tarde, con '* def'
+
+@skipme
+Scenario: Crear nuevo artículo
+    
+    # aquí iba el login antes pero se ha subido arriba para poder ser reutilizado más adelante
 
     Given header Authorization = 'Token ' + token //igual que al crear el articulo en postman, se necesitaba un header con 'token ' + valor del token para ser autorizados
     Given path 'articles'
