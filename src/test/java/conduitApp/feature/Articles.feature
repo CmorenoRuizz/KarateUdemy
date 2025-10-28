@@ -1,7 +1,7 @@
 Feature: Articles
 
 Background: Definir url
-    Given url 'https://conduit-api.bondaracademy.com/api/'
+    Given url apiUrl
 
     # Given path 'users/login'
     # And request {"user": {"email": "zanahorio@karate.com","password": "vf3hUL@fMpL6U3N"}} //body del método post (cuidado con el formateo al pegar, hay que ponerlo en línea...)
@@ -10,16 +10,20 @@ Background: Definir url
     # * def token = response.user.token //define una variable para guardar la información del token de inicio de sesión para usarlo más tarde, con '* def'
 
 
-    
+
     # Llama a 'CreateToken.feature' UNA SOLA VEZ (callonce) para obtener el token de autenticación.
     # Pasa las credenciales (email y password) como argumentos al feature llamado.
     # Guarda la respuesta completa devuelta por CreateToken.feature en la variable 'tokenResponse'.
-    * def tokenResponse = callonce read('classpath:helpers/CreateToken.feature') {"email": "zanahorio@karate.com","password": "vf3hUL@fMpL6U3N"}
+    # * def tokenResponse = callonce read('classpath:helpers/CreateToken.feature') {"email": "zanahorio@karate.com","password": "vf3hUL@fMpL6U3N"}
+
+    # Ya no es necesario porque lo hemos configurado en karate-config.js
+    # * def tokenResponse = callonce read('classpath:helpers/CreateToken.feature')
 
     # Extrae el valor de la variable 'authToken' (definida dentro de CreateToken.feature)
     # de la respuesta guardada en 'tokenResponse', y lo almacena en la variable 'token'
     # para poder usarla en los escenarios de este feature (Articles.feature). 
-    * def token = tokenResponse.authToken
+    # Ya no es necesario porque lo hemos configurado en karate-config.js
+    # * def token = tokenResponse.authToken
 
 @ignore
 Scenario: Crear nuevo artículo
@@ -36,8 +40,8 @@ Scenario: Crear nuevo artículo
 @debug
 Scenario: Crear y borrar un artículo
 
-    #Configuramos la cabecera Authorization una sola vez para todo el escenario
-    * configure headers = { Authorization: '#("Token " + token)' }
+    #Configuramos la cabecera Authorization una sola vez para todo el escenario. Ya no es necesario porque lo hemos configurado en karate-config.js
+    # * configure headers = { Authorization: '#("Token " + token)' }
 
     
     #Creamos el artículo

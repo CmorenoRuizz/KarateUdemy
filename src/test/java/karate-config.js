@@ -7,15 +7,19 @@ function fn() {
   if (!env) {
     env = 'dev';
   }
-  var config = {
-    env: env,
-    myVarName: 'someValue'
+  var config = {    
+    apiUrl: 'https://conduit-api.bondaracademy.com/api/'
   }
   if (env == 'dev') {
-    // customize
-    // e.g. config.foo = 'bar';
-  } else if (env == 'e2e') {
-    // customize
+    config.userEmail = 'zanahorio@karate.com'
+    config.userPassword = 'vf3hUL@fMpL6U3N'
+  } if (env == 'qa') {
+    config.userEmail = 'zanahorioqa@karate.com'
+    config.userPassword = 'contraseñaqa'
   }
+
+  var accessToken = karate.callSingle('classpath:helpers/CreateToken.feature', config).authToken
+  karate.configure('headers', {Authorization: 'Token ' + accessToken})
+  
   return config;
 }
