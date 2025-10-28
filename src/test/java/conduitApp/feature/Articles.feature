@@ -9,7 +9,7 @@ Background: Definir url
     Then status 200
     * def token = response.user.token //define una variable para guardar la información del token de inicio de sesión para usarlo más tarde, con '* def'
 
-@skipme
+@ignore
 Scenario: Crear nuevo artículo
     
     # aquí iba el login antes pero se ha subido arriba para poder ser reutilizado más adelante
@@ -20,3 +20,47 @@ Scenario: Crear nuevo artículo
     When method Post
     Then status 201
     And match response.article.title == 'postman3' //debe ser unico por ahora o da error por el diseño de la api, hasta que se pueda hacer con un generador aleatorio
+
+@debug
+Scenario: Crear y borrar un artículo
+
+    #Configuramos la cabecera Authorization una sola vez para todo el escenario
+    * configure headers = { Authorization: '#("Token " + token)' }
+
+    
+    #Creamos el artículo
+    
+    # Given header Authorization = 'Token ' + token
+    Given path 'articles'
+    And request {"article": {"title": "Bla bla","description": "más blabla","body": "contenido del body","tagList": []}}
+    When method Post
+    Then status 201
+    * def articleId = response.article.slug //variable para usar porque el valor de slug es requerido en el path para borrar el artículo
+
+    
+    #Comprobamos que el artículo se ha creado correctamente mediante el título
+    
+    # Given header Authorization = 'Token ' + token
+    Given params {limit:10, offset:0}
+    Given path 'articles'
+    When method Get
+    Then status 200
+    And match response.articles[0].title == 'Bla bla'
+
+    
+    #Borrar el artículo
+    
+    # Given header Authorization = 'Token ' + token
+    Given path 'articles',articleId
+    When method Delete
+    Then status 204
+
+    
+    #Comprobamos que el artículo ha sido borrado correctamente, es la manera porque no devolvía información el método Delete
+    
+    # Given header Authorization = 'Token ' + token
+    Given params {limit:10, offset:0}
+    Given path 'articles'
+    When method Get
+    Then status 200
+    And match response.articles[0].title != 'Bla bla'
