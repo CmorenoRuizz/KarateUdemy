@@ -2,7 +2,9 @@
 /target/
 
 # Archivos específicos del IDE
-.vscode/
+# .vscode/
+.vscode/*
+!.vscode/tasks.json
 .idea/
 *.iml
 
@@ -11,3 +13,4 @@
 
 .DS_Store
 Thumbs.db
+

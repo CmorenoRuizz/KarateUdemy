@@ -1,0 +1,90 @@
+// Control + shift + p --> Ejecutar tarea --> Seleccionar tarea
+
+{
+  "version": "2.0.0",
+  "tasks": [
+    // -------------------------------------------------------------------------
+    // TAREAS BÁSICAS DE EJECUCIÓN (Entorno 'dev' por defecto)
+    // -------------------------------------------------------------------------
+    {
+      "label": "Karate: Run ALL tests (dev)",
+      "detail": "Ejecuta TODOS los tests (.feature) usando el entorno 'dev' por defecto.",
+      "type": "shell",
+      "command": "mvn test",
+      "group": {
+        "kind": "test",
+        "isDefault": true // Puedes ejecutar esto con Ctrl+Shift+B (o Cmd+Shift+B)
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated", // Abre una terminal dedicada para esta tarea
+        "clear": true // Limpia la terminal antes de ejecutar
+      }
+    },
+    {
+      "label": "Karate: Run ONLY @debug tag (dev)",
+      "detail": "Ejecuta SÓLO los Scenarios o Features etiquetados con @debug en el entorno 'dev'.",
+      "type": "shell",
+      // Comando para PowerShell, envuelve toda la propiedad -D en comillas simples
+      "command": "mvn test '-Dkarate.options=--tags @debug'",
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "clear": true
+      }
+    },
+    {
+      "label": "Karate: Run all EXCEPT @skipme tag (dev)",
+      "detail": "Ejecuta TODOS los tests EXCEPTO los etiquetados con @skipme en el entorno 'dev'.",
+      "type": "shell",
+      // Comando para PowerShell, con la tilde ~ para excluir
+      "command": "mvn test '-Dkarate.options=--tags ~@skipme'",
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "clear": true
+      }
+    },
+    // -------------------------------------------------------------------------
+    // TAREAS PARA ENTORNO 'qa'
+    // -------------------------------------------------------------------------
+    {
+      "label": "Karate: Run ALL tests (qa)",
+      "detail": "Ejecuta TODOS los tests (.feature) usando el entorno 'qa'.",
+      "type": "shell",
+      // Comando para PowerShell, especificando el entorno qa
+      "command": "mvn test '-Dkarate.env=qa'",
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "clear": true
+      }
+    },
+    {
+      "label": "Karate: Run @debug tag (qa)",
+      "detail": "Ejecuta SÓLO los Scenarios o Features etiquetados con @debug en el entorno 'qa'.",
+      "type": "shell",
+      // Comando para PowerShell, combinando entorno y tag
+      "command": "mvn test '-Dkarate.env=qa' '-Dkarate.options=--tags @debug'",
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "clear": true
+      }
+    },
+    // -------------------------------------------------------------------------
+    // TAREAS DE MANTENIMIENTO DE MAVEN
+    // -------------------------------------------------------------------------
+    {
+      "label": "Maven: Clean Install (Force Update)",
+      "detail": "Limpia el proyecto (borra /target) y reinstala/descarga dependencias forzando la actualización.",
+      "type": "shell",
+      "command": "mvn clean install -U",
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "clear": true
+      }
+    }
+  ]
+}
