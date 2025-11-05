@@ -1,0 +1,20 @@
+package helpers;
+
+import com.github.javafaker.Faker;
+
+// si no es static, se complica la cosa (ver vídeo 21 para saber hacer la llamada)
+public class DataGenerator {
+    
+    public static String getRandomEmail(){
+        Faker faker = new Faker();
+        String email = faker.name().firstName().toLowerCase() + faker.random().nextInt(0, 100) + "@test.com";
+        return email;
+    }
+
+    public static String getRandomUsername(){
+        Faker faker = new Faker();
+        String username = faker.name().username();
+        return username;
+    }
+
+}

@@ -48,7 +48,7 @@ Scenario: Get 10 articles from the page
             "description": "#string",
             "body": "#string",
             "tagList": "#array",
-            "createdAt": "#? timeValidator(_)",
+            "createdAt": "#? timeValidator(_)", //Esto y lo de abajo se podria comprobar poniendo que es string, pero no es lo correcto porque no comprueba si el formato está bien devuelto.
             "updatedAt": "#? timeValidator(_)",
             "favorited": "#boolean",
             "favoritesCount": "#number",

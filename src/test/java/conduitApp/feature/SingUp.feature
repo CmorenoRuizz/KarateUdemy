@@ -1,9 +1,13 @@
-@ignore
+@debug2
 Feature: Sign Up new user
 
 Background: Precondición
     # Define la URL base para todas las peticiones en este 'feature'.
     # 'apiUrl' es una variable global definida en 'karate-config.js'.
+    
+    #para importar el archivo java con la libreria maven de "java faker"
+    * def dataGenerator = Java.type('helpers.DataGenerator')
+
     Given url apiUrl
 
 # --- EJEMPLO ANTIGUO (Hardcodeado) ---
@@ -23,7 +27,11 @@ Scenario: New user Sign Up
     # Define una variable 'userData' que contiene un objeto JSON.
     # Esto es una buena práctica para separar los datos de la prueba (el 'qué')
     # de la lógica de la prueba (el 'cómo').
-    Given def userData = {"email":"zanahoriopostman3@karate.com","username":"zanahoriopostman3"}
+    # Given def userData = {"email":"zanahoriopostman3@karate.com","username":"zanahoriopostman3"}
+
+    #variables para generar random email y random username
+    * def randomEmail = dataGenerator.getRandomEmail()
+    * def randomUsername = dataGenerator.getRandomUsername()
 
     # --- PASO 2: CONSTRUIR LA PETICIÓN ---
     # Establece la ruta de la API que se añadirá a la 'apiUrl' del Background.
@@ -35,9 +43,9 @@ Scenario: New user Sign Up
     """
         {
             "user": {
-                "email": #(userData.email),
+                "email": #(randomEmail),
                 "password": "K!HP3xz7UXgsLn9",
-                "username": #(userData.username)
+                "username": #(randomUsername)
             }
         }
     """
@@ -46,3 +54,18 @@ Scenario: New user Sign Up
     When method Post
     # Valida que el código de estado de la respuesta del servidor sea 201 (Created).
     Then status 201
+
+    #validación del json
+    And match response == 
+    """
+    {
+        "user": {
+            "id": "#number",
+            "email": #(randomEmail),
+            "username": #(randomUsername),
+            "bio": null,
+            "image": "##string",
+            "token": "#string"
+        }
+    }
+    """
