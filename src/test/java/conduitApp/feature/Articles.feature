@@ -1,7 +1,8 @@
+@debug
 Feature: Articles
 
 Background: Definir url
-    Given url apiUrl
+    * url apiUrl
 
     # Given path 'users/login'
     # And request {"user": {"email": "zanahorio@karate.com","password": "vf3hUL@fMpL6U3N"}} //body del método post (cuidado con el formateo al pegar, hay que ponerlo en línea...)
@@ -25,17 +26,26 @@ Background: Definir url
     # Ya no es necesario porque lo hemos configurado en karate-config.js
     # * def token = tokenResponse.authToken
 
-@ignore
+    * def articleRequestBody = read('classpath:conduitApp/json/newArticleRequest.json')
+    * def dataGenerator = Java.type('helpers.DataGenerator')
+
+    * set articleRequestBody.article.title = dataGenerator.getRandomArticleValues().title
+    * set articleRequestBody.article.description = dataGenerator.getRandomArticleValues().description
+    * set articleRequestBody.article.body = dataGenerator.getRandomArticleValues().body
+
+
 Scenario: Crear nuevo artículo
     
     # aquí iba el login antes pero se ha subido arriba para poder ser reutilizado más adelante
 
-    Given header Authorization = 'Token ' + token //igual que al crear el articulo en postman, se necesitaba un header con 'token ' + valor del token para ser autorizados
+    # Given header Authorization = 'Token ' + token //igual que al crear el articulo en postman, se necesitaba un header con 'token ' + valor del token para ser autorizados
     Given path 'articles'
-    And request {"article": {"title": "postman3","description": "sfasfsaf","body": "fsafasfsaf","tagList": []}} //body necesario para crear el articulo, como en Postman (formateo...)
+    # And request {"article": {"title": "postman3","description": "sfasfsaf","body": "fsafasfsaf","tagList": []}} //body necesario para crear el articulo, como en Postman (formateo...)
+    And request articleRequestBody
     When method Post
     Then status 201
-    And match response.article.title == 'postman3' //debe ser unico por ahora o da error por el diseño de la api, hasta que se pueda hacer con un generador aleatorio
+    # And match response.article.title == 'postman4' //debe ser unico por ahora o da error por el diseño de la api, hasta que se pueda hacer con un generador aleatorio
+    And match response.article.title == articleRequestBody.article.title
 
 
 Scenario: Crear y borrar un artículo
@@ -48,7 +58,8 @@ Scenario: Crear y borrar un artículo
     
     # Given header Authorization = 'Token ' + token
     Given path 'articles'
-    And request {"article": {"title": "Bla bla","description": "más blabla","body": "contenido del body","tagList": []}}
+    # And request {"article": {"title": "Bla bla","description": "más blabla","body": "contenido del body","tagList": []}}
+    And request articleRequestBody
     When method Post
     Then status 201
     * def articleId = response.article.slug //variable para usar porque el valor de slug es requerido en el path para borrar el artículo
@@ -61,7 +72,8 @@ Scenario: Crear y borrar un artículo
     Given path 'articles'
     When method Get
     Then status 200
-    And match response.articles[0].title == 'Bla bla'
+    # And match response.articles[0].title == 'Bla bla'
+    And match response.articles[0].title == articleRequestBody.article.title
 
     
     #Borrar el artículo
@@ -79,4 +91,5 @@ Scenario: Crear y borrar un artículo
     Given path 'articles'
     When method Get
     Then status 200
-    And match response.articles[0].title != 'Bla bla'
+    # And match response.articles[0].title != 'Bla bla'
+    And match response.articles[0].title != articleRequestBody.article.title
