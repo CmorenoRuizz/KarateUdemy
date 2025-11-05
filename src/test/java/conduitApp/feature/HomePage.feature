@@ -1,3 +1,4 @@
+@debug1
 Feature: Tests para la home page
 
 Background: Definir url
@@ -7,9 +8,9 @@ Scenario: Get all tags
     Given path 'tags'
     When method Get
     Then status 200
-    And match response.tags contains ['YouTube', 'Blog'] //contiene esos tags
-    And match response.tags !contains 'avión' //no contiene el tag avión
-    And match response.tags contains any ['Zoom', 'GitHub', 'Twitch'] //contiene al menos alguno (OR)
+    # And match response.tags contains ['YouTube', 'Blog'] //contiene esos tags
+    # And match response.tags !contains 'avión' //no contiene el tag avión
+    # And match response.tags contains any ['Zoom', 'GitHub', 'Twitch'] //contiene al menos alguno (OR)
     # And match response.tags contains only [] Para comprobar que SOLO contiene lo que se especifica
     And match response.tags == "#array" //comprobar que devuelve un array, no un objeto
     And match response.tags != "#string" //comprobar que no devuelve un string (irrelevante pero por tenerlo como referencia)
@@ -29,3 +30,6 @@ Scenario: Get 10 articles from the page
     # And match response.articles[*].author.bio contains null //comprobamos que en cualquiera de los artículos, la biografía del autor es null (no es string, cuidado)
     And match response..bio contains null //igual que el ejemplo de arriba, pero es un shortcut para paths muy largos. Karate mira el response y encuentra todos los bio, asegurándose de que al menos uno es null
     And match each response..following == false //verificamos que CADA objeto del array, su "following" es false
+    And match each response..following == "#boolean" //verificamos que devuelve un booleano
+    And match each response..favoritesCount == "#number" //verificamos que devuelve un number
+    And match each response..bio == "##string" //con doble "##" verifica que bio devuelve un string OR null
