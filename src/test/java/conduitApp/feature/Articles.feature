@@ -37,7 +37,7 @@ Scenario: Crear nuevo artículo
     Then status 201
     And match response.article.title == 'postman3' //debe ser unico por ahora o da error por el diseño de la api, hasta que se pueda hacer con un generador aleatorio
 
-@debug
+
 Scenario: Crear y borrar un artículo
 
     #Configuramos la cabecera Authorization una sola vez para todo el escenario. Ya no es necesario porque lo hemos configurado en karate-config.js

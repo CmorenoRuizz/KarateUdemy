@@ -1,4 +1,4 @@
-@debug1
+
 Feature: Tests para la home page
 
 Background: Definir url

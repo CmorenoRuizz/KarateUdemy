@@ -1,4 +1,4 @@
-@debug2
+@debug
 Feature: Sign Up new user
 
 Background: Precondición
@@ -7,6 +7,9 @@ Background: Precondición
     
     #para importar el archivo java con la libreria maven de "java faker"
     * def dataGenerator = Java.type('helpers.DataGenerator')
+
+    * def randomEmail = dataGenerator.getRandomEmail()
+    * def randomUsername = dataGenerator.getRandomUsername()
 
     Given url apiUrl
 
@@ -30,8 +33,8 @@ Scenario: New user Sign Up
     # Given def userData = {"email":"zanahoriopostman3@karate.com","username":"zanahoriopostman3"}
 
     #variables para generar random email y random username
-    * def randomEmail = dataGenerator.getRandomEmail()
-    * def randomUsername = dataGenerator.getRandomUsername()
+    # * def randomEmail = dataGenerator.getRandomEmail()
+    # * def randomUsername = dataGenerator.getRandomUsername()
 
     # --- PASO 2: CONSTRUIR LA PETICIÓN ---
     # Establece la ruta de la API que se añadirá a la 'apiUrl' del Background.
@@ -69,3 +72,39 @@ Scenario: New user Sign Up
         }
     }
     """
+
+    # Scenario Outline: Define una "plantilla" de test.
+    # Se ejecutará una vez por cada fila de la tabla <Examples>.
+    # Sirve para probar el mismo flujo con diferentes conjuntos de datos.
+ 
+    Scenario Outline: Validar errores al iniciar sesión
+
+        # * def randomEmail = dataGenerator.getRandomEmail()
+        # * def randomUsername = dataGenerator.getRandomUsername()
+
+        Given path 'users'
+        And request
+        """
+            {
+                "user": {
+                    "email": "<email>",
+                    "password": "<password>",
+                    "username": "<username>"
+                }
+            }
+        """
+        When method Post
+        Then status 422
+        And match response == <errorResponse>
+
+        # La tabla 'Examples' define los datos que rellenarán los marcadores en cada ejecución.
+        Examples:
+            | email             | password          | username  | errorResponse                                         |
+            | #(randomEmail)    | K!HP3xz7UXgsLn9   | zanahorio | {"errors":{"username":["has already been taken"]}}    |
+            | zanahorio@karate.com               | K!HP3xz7UXgsLn9   | #(randomUsername) | {"errors":{"email":["has already been taken"]}}    |
+            | zanahorio   | K!HP3xz7UXgsLn9      | #(randomUsername) | {"errors":{"email":["is invalid"]}}    |
+            |    | K!HP3xz7UXgsLn9   | #(randomUsername) | {"errors":{"email":["can't be blank"]}}    |
+            | #(randomEmail)    | K!HP3xz7UXgsLn9   | zanahoriofasfsaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa | {"errors":{"username":["is too long (maximum is 20 characters)"]}}    |
+            | #(randomEmail)    | Kar   | #(randomUsername) | {"errors":{"password":["is too short (minimum is 8 characters)"]}}   |
+            | #(randomEmail)    |    | #(randomUsername) | {"errors":{"password":["can't be blank"]}}   |
+            | #(randomEmail)    |  Karate123  |  | {"errors":{"username":["can't be blank"]}}   |
