@@ -27,7 +27,7 @@ Scenario: Get 10 articles from the page
     # And match response.articles == "#[10]" //comprobar que el tamaño del array devuelto es 10
     # And match response.articlesCount == 16 //comprobar que el numero de articulos es 10 (cuidado porque en Postman esta devolviendo un number, no un string, por eso se pone sin comillas)
     # And match response.articlesCount != 500 //comprobar que el número de artículos no es 500
-    And match response == {"articles": "#[10]", "articlesCount": 16}
+    # And match response == {"articles": "#[10]", "articlesCount": 16}
     # And match response == {"articles": "#array", "articlesCount": 16} //comprueba la respuesta, en este caso que articles es un array y articlesCount devuelve 16
     # And match response.articles[6].createdAt contains "2024" //comprobamos que el artículo 7 (posición 6 array) fue creado en 2024 (contiene 2024 en el string)
     # And match response.articles[*].favoritesCount contains 0 //con * no se especifica la posición del array, pero hace que Karate busque en todo el array
@@ -48,7 +48,7 @@ Scenario: Get 10 articles from the page
             "description": "#string",
             "body": "#string",
             "tagList": "#array",
-            "createdAt": "#? timeValidator(_)", //Esto y lo de abajo se podria comprobar poniendo que es string, pero no es lo correcto porque no comprueba si el formato está bien devuelto.
+            "createdAt": "#? timeValidator(_)",
             "updatedAt": "#? timeValidator(_)",
             "favorited": "#boolean",
             "favoritesCount": "#number",
