@@ -76,7 +76,8 @@ Scenario: New user Sign Up
     # Scenario Outline: Define una "plantilla" de test.
     # Se ejecutará una vez por cada fila de la tabla <Examples>.
     # Sirve para probar el mismo flujo con diferentes conjuntos de datos.
- 
+
+    @parallel=false
     Scenario Outline: Validar errores al iniciar sesión
 
         # * def randomEmail = dataGenerator.getRandomEmail()
