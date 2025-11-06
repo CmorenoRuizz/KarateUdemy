@@ -79,6 +79,7 @@ Scenario: Conditional logic para darle like al primer artículo
     Then status 200
     And match response.articles[0].favoritesCount == 1
 
+@ignore
 Scenario: Retry call
     #en este scenario, va a commprobar 10 veces cada 5 segundos que el artículo 1 tiene al menos 1 corazón(favorito). Para sistemas lentos o inestables.
 
@@ -91,7 +92,7 @@ Scenario: Retry call
     When method Get
     Then status 200
 
-
+@ignore
 Scenario: Sleep call
     #simplemente añade una pausa de 5 segundos para evaluar el test. La función está sacada de la página de Karate (buscando sleep).
 
@@ -102,3 +103,20 @@ Scenario: Sleep call
     When method Get
     * eval sleep(5000)
     Then status 200
+
+
+Scenario: Number to String
+    * def foo = 10
+    * def json = {"bar": #(foo+'')}
+    * match json == {"bar": '10'}
+
+
+Scenario: String to Number
+    #opción 1
+    * def foo = '10'
+    * def json = {"bar": #(foo*1)}
+    * match json == {"bar": 10}
+
+    #opción 2 (se usa ~~ para que sea entero y no decimal, porque daría 10.0)
+    * def json2 = {"bar": #(~~parseInt(foo))}
+    * match json2 == {"bar": 10}
