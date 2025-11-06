@@ -1,21 +1,30 @@
-# Proyecto de Práctica de Karate (Curso de Udemy)
+# Showcase: Karate DSL (API & Performance Testing)
 
-Este repositorio contiene el código y los tests que estoy desarrollando como parte de mi formación en automatización con Karate, siguiendo un curso de Udemy.
+Este repositorio documenta mi aprendizaje y los proyectos desarrollados durante el curso **"Karate DSL: API Automation and Performance from Zero to Hero"**.
 
-## 🎯 Objetivo
+El proyecto evoluciona desde tests de API básicos hasta un *framework* de pruebas de rendimiento, cubriendo un stack técnico completo.
 
-El propósito de este proyecto es aplicar y practicar los conceptos aprendidos en el curso, incluyendo:
-* Testing de API (GET, POST, PUT, DELETE).
-* Sintaxis Gherkin (BDD) para definir casos de prueba.
-* Aserciones y validación de respuestas (JSON).
-* Configuración de un proyecto Java/Maven para testing.
+## 🎯 Objetivos de Aprendizaje y Conceptos Aplicados
+
+El propósito de este proyecto fue dominar los siguientes conceptos:
+* Pruebas de API (GET, POST, PUT, DELETE) y validación de respuestas JSON.
+* Uso de sintaxis **Gherkin (BDD)** para definir casos de prueba legibles.
+* Configuración de un proyecto Java/Maven desde cero, gestionando dependencias (`pom.xml`).
+* Reutilización de código (`call`, `callonce`, `Background`, `karate-config.js`).
+* Gestión de entornos (`dev`, `qa`) y variables de entorno.
+* Generación de datos de prueba dinámicos (Data-Driven) usando **JavaFaker**.
+* Integración de **Pruebas de Rendimiento (Performance Testing)** usando la simulación de **Gatling** y **Scala**.
+* Generación de reportes de prueba avanzados con **Cucumber Reporting**.
 
 ## 🛠️ Tecnologías Utilizadas
-* **Karate**
-* **Java**
-* **Maven**
-* **Gherkin**
-* **JUnit 5**
+
+* **Framework de Testing:** **Karate DSL**
+* **Lenguajes:** **Java** (para utilidades) y **Scala** (para Gatling)
+* **Gestor de Proyecto:** **Maven**
+* **Lanzador de Pruebas:** **JUnit 5**
+* **Pruebas de Rendimiento:** **Gatling**
+* **Datos de Prueba:** **JavaFaker**
+* **Reportes:** **Cucumber Reporting**
 
 ---
-*Nota: Este es un repositorio de aprendizaje y no un proyecto de producción. El código sigue los ejemplos del curso.*
+*Nota: Este es un repositorio de aprendizaje que sigue los ejemplos de un curso. Su objetivo es demostrar la aplicación de las tecnologías mencionadas.*
