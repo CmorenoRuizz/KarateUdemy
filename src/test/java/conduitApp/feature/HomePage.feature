@@ -60,3 +60,21 @@ Scenario: Get 10 articles from the page
             }
         }
     """
+
+Scenario: Conditional logic para darle like al primer artículo
+    Given params {limit:10, offset:0}
+    Given path 'articles'
+    When method Get
+    Then status 200
+
+    * def favoritesCount = response.articles[0].favoritesCount
+    * def article = response.articles[0]
+
+    # Solo si el contador de favoritos es 0, le da un like
+    * if (favoritesCount == 0) karate.call('classpath:helpers/AddLikes.feature', article)
+
+    Given params {limit:10, offset:0}
+    Given path 'articles'
+    When method Get
+    Then status 200
+    And match response.articles[0].favoritesCount == 1
